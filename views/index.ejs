@@ -1,0 +1,76 @@
+<%- include("partials/header") %>
+  <%if (locals.content) { %>
+    <div class="weather-container">
+      <div class="weather-header">
+        <h1>
+          <%= content.name %>, <%= content.sys.country %>
+        </h1>
+        <img src="http://openweathermap.org/img/wn/<%= content.weather[0].icon %>@2x.png"
+          alt="<%= content.weather[0].description %>" class="weather-icon" />
+        <p>
+          <%= content.weather[0].description %>
+        </p>
+      </div>
+      <div class="weather-info">
+        <div>
+          <i class="fas fa-thermometer-half"></i>
+          <p>Temperature:</p>
+          <p class="value">
+            <%= (content.main.temp - 273.15).toFixed(2) %>°C
+          </p>
+        </div>
+        <div>
+          <i class="fas fa-tint"></i>
+          <p>Humidity:</p>
+          <p class="value">
+            <%= content.main.humidity %>%
+          </p>
+        </div>
+        <div>
+          <i class="fas fa-wind"></i>
+          <p>Wind Speed:</p>
+          <p class="value">
+            <%= content.wind.speed %> m/s
+          </p>
+        </div>
+        <div>
+          <i class="fas fa-compress-arrows-alt"></i>
+          <p>Pressure:</p>
+          <p class="value">
+            <%= content.main.pressure %> hPa
+          </p>
+        </div>
+        <div>
+          <i class="fas fa-sun"></i>
+          <p>Sunrise:</p>
+          <p class="value">
+            <%= new Date(content.sys.sunrise * 1000).toLocaleTimeString() %>
+          </p>
+        </div>
+        <div>
+          <i class="fas fa-moon"></i>
+          <p>Sunset:</p>
+          <p class="value">
+            <%= new Date(content.sys.sunset * 1000).toLocaleTimeString() %>
+          </p>
+        </div>
+      </div>
+      <a href="/">
+        <div class="submit-btn">
+          <i class="fas fa-cloud-sun"></i> Check for other city
+        </div>
+    </div>
+    </a>
+
+    <% } else { %>
+      <form action="/weather-data" method="POST" class="weather-form">
+        <label for="city-name" class="sr-only">City Name</label>
+        <div class="input-container">
+          <i class="fas fa-city"></i>
+          <input type="text" name="city-name" id="city-name" placeholder="Enter your city name here" required />
+        </div>
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-cloud-sun"></i> Get Weather
+        </button>
+      </form>
+      <% } %> <%- include("partials/footer") %>
